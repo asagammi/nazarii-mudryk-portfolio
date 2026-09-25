@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
 import { ArrowUpRight, ArrowRight, FileText, Mail, MapPin, Bot, Layers3, Database, ScanLine, Cpu, Globe2, Command, X } from 'lucide-react'
-import { siGithub, siTelegram, siInstagram, siFacebook } from 'simple-icons'
+import { siGithub, siTelegram, siInstagram, siFacebook, siUpwork } from 'simple-icons'
 import { LanguageContext, initialLanguage, useT } from './i18n'
 import type { Language, TranslationKey } from './i18n'
 import { profile } from './config'
 import { getConsent, setConsent, track } from './analytics'
 type Platform = keyof typeof profile.links
 function Brand({ name }: { name: Platform }) {
-  const icon = { github: siGithub, telegram: siTelegram, instagram: siInstagram, facebook: siFacebook }[name as 'github' | 'telegram' | 'instagram' | 'facebook']
+  const icon = { github: siGithub, telegram: siTelegram, instagram: siInstagram, facebook: siFacebook, upwork: siUpwork }[name as 'github' | 'telegram' | 'instagram' | 'facebook' | 'upwork']
   if (icon) return <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icon.path}/></svg>
   if (name === 'linkedin') return <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96c0 .84.69 1.52 1.55 1.52h16.9c.86 0 1.55-.68 1.55-1.52V3.52c0-.84-.69-1.52-1.55-1.52ZM7.93 18.75H4.98V9.2h2.95v9.55ZM6.45 7.9a1.71 1.71 0 1 1 0-3.42 1.71 1.71 0 0 1 0 3.42Zm12.3 10.85H15.8V14.1c0-1.11-.02-2.54-1.55-2.54-1.55 0-1.79 1.21-1.79 2.46v4.73H9.51V9.2h2.83v1.31h.04c.4-.75 1.36-1.55 2.79-1.55 2.98 0 3.58 1.96 3.58 4.51v5.28Z"/></svg>
   return name === 'cv' ? <FileText aria-hidden="true"/> : <Mail aria-hidden="true"/>
@@ -19,6 +19,7 @@ function Link({ platform, children, className = '', contact = false }: { platfor
     const params = { platform, destination: profile.links[platform] }
     track(platform === 'cv' ? 'cv_open' : platform === 'email' ? 'email_click' : 'social_click', params)
     if (platform === 'facebook') track('facebook_click', params)
+    if (platform === 'upwork') track('upwork_click', params)
     if (contact) track('contact_click', params)
   }}>{children}</a>
 }
@@ -39,7 +40,7 @@ function Capabilities() {
   const t = useT()
   return <section id="expertise" className="expertise" aria-labelledby="build-title"><div className="section-label"><h2 id="build-title">{t("WHAT I BUILD")}</h2><span>{t("01 — EXPERTISE")}</span></div><div className="capability-grid">{capabilities.map(({ icon: Icon, title, next, text, tags, featured }, i) => <article key={title} className={`capability ${featured ? 'featured' : ''}`} style={{ animationDelay: `${100 + i * 65}ms` }}><div className="card-top"><Icon size={25} strokeWidth={1.5} aria-hidden="true"/><span>0{i + 1}</span></div><h3>{t(`${title} ${next}` as TranslationKey)}</h3><p>{t(text as TranslationKey)}</p><div className="card-tags">{t(tags as TranslationKey)}</div></article>)}</div></section>
 }
-const socials: { platform: Platform; label: string; text: string }[] = [ { platform: 'github', label: 'GitHub', text: 'Explore the code' }, { platform: 'linkedin', label: 'LinkedIn', text: 'The professional side' }, { platform: 'telegram', label: 'Telegram', text: 'Start a conversation' }, { platform: 'instagram', label: 'Instagram', text: 'Beyond the keyboard' }, { platform: 'facebook', label: 'Facebook', text: 'Personal profile' } ]
+const socials: { platform: Platform; label: string; text: string }[] = [ { platform: 'github', label: 'GitHub', text: 'Explore the code' }, { platform: 'linkedin', label: 'LinkedIn', text: 'The professional side' }, { platform: 'telegram', label: 'Telegram', text: 'Start a conversation' }, { platform: 'instagram', label: 'Instagram', text: 'Beyond the keyboard' }, { platform: 'facebook', label: 'Facebook', text: 'Personal profile' }, { platform: 'upwork', label: 'Upwork', text: 'Freelance profile' } ]
 function Connections() {
   const t = useT()
   return <section id="connect" className="connections" aria-labelledby="connect-title"><div className="section-label"><h2 id="connect-title">{t("FIND ME ONLINE")}</h2><span>{t("02 — CONNECT")}</span></div><div className="social-grid">{socials.map(s => <Link key={s.platform} platform={s.platform} contact={s.platform === 'telegram'} className={`social ${s.platform}`}><Brand name={s.platform}/><div><h3>{s.label}</h3><p>{t(s.text as TranslationKey)}</p></div><ArrowUpRight className="out-arrow" size={18}/></Link>)}</div></section>
