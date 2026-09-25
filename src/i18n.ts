@@ -31,7 +31,7 @@ export const translations = {
   'RASPBERRY PI / ESP32 / ARDUINO': 'RASPBERRY PI / ESP32 / ARDUINO',
   'FIND ME ONLINE': 'МОЇ ПРОФІЛІ', '02 — CONNECT': '02 — КОНТАКТИ',
   'Explore the code': 'Переглянути код', 'The professional side': 'Професійний профіль',
-  'Start a conversation': 'Написати мені', 'Beyond the keyboard': 'Життя поза кодом', 'Personal profile': 'Особистий профіль',
+  'Start a conversation': 'Написати мені', 'Beyond the keyboard': 'Життя поза кодом', 'Personal profile': 'Особистий профіль', 'Freelance profile': 'Фриланс-профіль',
   '03 — TOOLKIT': '03 — ІНСТРУМЕНТИ', 'The right tools.': 'Правильні інструменти.', 'Real-world solutions.': 'Практичні рішення.',
   'Development': 'Розробка', 'Infrastructure': 'Інфраструктура', 'Automation & AI': 'Автоматизація та AI', 'Hardware': 'Апаратні платформи',
   'AI Agents': 'AI-агенти', 'Browser Automation': 'Автоматизація браузера', 'Web Scraping': 'Збір вебданих', 'Telegram Bots': 'Telegram-боти', 'Computer Vision': 'Комп’ютерний зір',
