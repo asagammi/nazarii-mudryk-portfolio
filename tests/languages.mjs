@@ -17,10 +17,12 @@ for(const language of ['en','uk']){
  if(language==='uk'){
  for(const selector of ['.hero','.capability-grid','.stack','.closing','footer'])assert(!/I build|Let’s talk|View CV|Explore my CV|Development|Infrastructure|Nazarii|Working|Expertise|Personal profile/.test(await page.locator(selector).innerText()),selector);
  assert.equal(await page.locator('.facebook p').innerText(),'Особистий профіль');
+ assert.equal(await page.locator('.upwork p').innerText(),'Фриланс-профіль');
  }
  await page.getByRole('button',{name:language==='en'?'Analytics preferences':'Налаштування аналітики',exact:true}).click();assert(await page.locator('.consent').isVisible());await page.locator('.consent button').first().click();
 }
 assert.equal(await page.locator('.facebook').getAttribute('href'),'https://www.facebook.com/mudryk.nazar/');
+assert.equal(await page.locator('.upwork').getAttribute('href'),'https://www.upwork.com/freelancers/~018c454d8e59342ab4');
 assert(await page.locator('a[href^="https:"],a[href^="mailto:"]').evaluateAll(es=>es.every(e=>e.target==='_blank'&&e.rel==='noopener noreferrer')));
 await page.goto('about:blank');await page.goto('http://127.0.0.1:4173/');await page.keyboard.press('Tab');assert(await page.locator('.skip-link').evaluate(e=>e===document.activeElement));
 for(let i=0;i<5;i++)await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.getAttribute('aria-label')),'Switch to English');await page.keyboard.press('Enter');assert.equal(await page.locator('html').getAttribute('lang'),'en');await page.keyboard.press('Tab');await page.keyboard.press('Enter');assert.equal(await page.locator('html').getAttribute('lang'),'uk');
