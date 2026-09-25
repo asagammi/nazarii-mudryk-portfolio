@@ -18,15 +18,16 @@ try {
  await page.evaluate(()=>document.addEventListener('click',e=>{if(e.target.closest('a'))e.preventDefault()}));
  for (const language of ['en','uk']) {
  await page.getByRole('button',{name:language==='en'?'Switch to English':'Перейти на українську',exact:true}).click();
- for (const selector of ['.social.github','.social.linkedin','.social.telegram','.social.instagram','.social.facebook','.hero-actions .primary','.closing-actions a[href^="mailto:"]','.hero-actions .secondary','.closing-actions .primary']) await page.locator(selector).click();
+ for (const selector of ['.social.github','.social.linkedin','.social.telegram','.social.instagram','.social.facebook','.social.upwork','.hero-actions .primary','.closing-actions a[href^="mailto:"]','.hero-actions .secondary','.closing-actions .primary']) await page.locator(selector).click();
  }
  await page.getByRole('button',{name:'Switch to English',exact:true}).click();
  const events=await page.evaluate(()=>window.dataLayer.map(a=>Array.from(a)).filter(a=>a[0]==='event'));
- for(const name of ['page_view','social_click','cv_open','email_click','contact_click','facebook_click'])assert(events.some(e=>e[1]===name),`Missing ${name}`);
+ for(const name of ['page_view','social_click','cv_open','email_click','contact_click','facebook_click','upwork_click'])assert(events.some(e=>e[1]===name),`Missing ${name}`);
  assert.equal(events.filter(e=>e[1]==='page_view').length,1);
  assert(events.every(e=>e[2].utm_source==='instagram'));
  assert.equal(events.filter(e=>e[1]==='facebook_click').length,2);
- for(const platform of ['github','linkedin','telegram','instagram','facebook'])assert(events.some(e=>e[1]==='social_click'&&e[2].platform===platform));
+ assert.equal(events.filter(e=>e[1]==='upwork_click').length,2);
+ for(const platform of ['github','linkedin','telegram','instagram','facebook','upwork'])assert(events.some(e=>e[1]==='social_click'&&e[2].platform===platform));
  assert.equal(events.filter(e=>e[1]==='cv_open').length,4);
  const social=events.find(e=>e[1]==='social_click');assert.equal(social[2].platform,'github');assert.equal(social[2].destination,'https://github.com/asagammi');
  await page.getByRole('button',{name:'Analytics preferences',exact:true}).click();
@@ -34,7 +35,7 @@ try {
  await page.waitForLoadState(); await page.waitForTimeout(500);
  assert.equal(await page.evaluate(()=>localStorage.getItem('nm-analytics-consent')),'declined');
  assert.equal(requests.length,1);
- console.log('PASS: GA consent gating, all five event types, UTM, destination/platform, one page_view, consent withdrawal. Google network intercepted; no real analytics sent.');
+ console.log('PASS: GA consent gating, all seven event types, UTM, destination/platform, one page_view, consent withdrawal. Google network intercepted; no real analytics sent.');
  await browser.close();
 } finally {server.kill()}
 
