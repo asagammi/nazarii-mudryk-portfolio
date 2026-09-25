@@ -13,7 +13,7 @@ await page.locator('.portrait img').evaluate(img=>img.decode());
 assert.equal(await page.locator('.portrait img').evaluate(img=>img.naturalWidth>0),true);
 assert.equal(await page.locator('.hero-actions .primary').getAttribute('href'),'https://t.me/asagammi');
 const cv='https://drive.google.com/file/d/1Et5YJrfyejLJv9SDHO4D8a9ytE0hRmtC/view?usp=sharing';assert.equal(await page.locator(`a[href="${cv}"]`).count(),2);
-for(const [name,url] of Object.entries({github:'https://github.com/asagammi',linkedin:'https://www.linkedin.com/in/nazarii-mudryk/',telegram:'https://t.me/asagammi',instagram:'https://www.instagram.com/nazar_mudrykk'}))assert.equal(await page.locator(`.social.${name}`).getAttribute('href'),url);
+for(const [name,url] of Object.entries({github:'https://github.com/asagammi',linkedin:'https://www.linkedin.com/in/nazarii-mudryk/',telegram:'https://t.me/asagammi',instagram:'https://www.instagram.com/nazar_mudrykk',facebook:'https://www.facebook.com/mudryk.nazar/',upwork:'https://www.upwork.com/freelancers/~018c454d8e59342ab4'}))assert.equal(await page.locator(`.social.${name}`).getAttribute('href'),url);
 assert.equal(await page.locator('a[href^="https:"],a[href^="mailto:"]').evaluateAll(links=>links.every(a=>a.target==='_blank'&&a.rel==='noopener noreferrer')),true);
 for(const [width,height] of [[320,812],[375,812],[390,844],[768,1024],[1440,900]]){
  await page.setViewportSize({width,height});await page.evaluate(()=>scrollTo(0,0));await page.waitForTimeout(1100);
