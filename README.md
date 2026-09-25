@@ -45,7 +45,8 @@ VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 | Событие | Когда |
 | --- | --- |
 | page_view | Один раз при инициализации после согласия |
-| social_click | GitHub, LinkedIn, Telegram, Instagram, Facebook; параметры platform и destination |
+| social_click | GitHub, LinkedIn, Telegram, Instagram, Facebook, Upwork; параметры platform и destination |
+| upwork_click | Клик по карточке Upwork |
 | cv_open | Обе ссылки на CV |
 | email_click | Ссылка email в нижнем CTA |
 | contact_click | Let’s talk, email в нижнем CTA и Telegram |
@@ -93,9 +94,9 @@ node tests/analytics.mjs
 
 Let’s talk ведёт в Telegram. Email сохранён как `mailto:asagammi@gmail.com` из исходного задания; неоднозначная запись `mailto@gmail.com` не использовалась.
 
-## EN / UA и Facebook
+## EN / UA, Facebook и Upwork
 
-Переключатель сохраняет язык в localStorage (nm-language). По умолчанию — en, украинский — uk; html lang меняется без перезагрузки. Локальный типизированный словарь: src/i18n.ts. Бренды и названия технологий не переводятся. Facebook: ссылка в src/config.ts, официальная иконка Simple Icons. Клик отправляет social_click с platform=facebook и отдельное facebook_click.
+Переключатель сохраняет язык в localStorage (nm-language). По умолчанию — en, украинский — uk; html lang меняется без перезагрузки. Локальный типизированный словарь: src/i18n.ts. Бренды и названия технологий не переводятся. Facebook и Upwork: ссылки в src/config.ts, официальные иконки Simple Icons. Клики отправляют social_click; дополнительно используются facebook_click и upwork_click.
 
 Проверка обеих версий: node tests/languages.mjs при production preview на 4173. Проверены 320, 390, 430, 1024 и 1440 px, сохранение языка, клавиатура, фото и оба уровня fallback. tests/analytics.mjs проверяет все социальные карточки и CTA в EN/UK с перехватом запросов Google.
 
