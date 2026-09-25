@@ -1,6 +1,8 @@
 import { chromium } from '@playwright/test';
 import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});const page=await browser.newPage();const errors=[];const ga=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});page.on('request',r=>{if(/googletagmanager|google-analytics/.test(r.url()))ga.push(r.url())});
+// Vite preview does not serve the Vercel-managed analytics endpoint.
+await page.route('**/_vercel/insights/script.js', route => route.fulfill({ status: 200, contentType: 'application/javascript', body: '' }));
 await page.goto('http://127.0.0.1:4173/');await page.getByRole('button',{name:'Allow analytics'}).click();await page.evaluate(()=>document.fonts.ready);
 assert.equal(await page.locator('html').getAttribute('lang'),'en');
 for(const language of ['en','uk']){
